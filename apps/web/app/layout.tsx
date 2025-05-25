@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Mademail",
-  description: "The Design-First, AI-Enhanced Email Builder for Teams",
+  title: "Mademail - The Design-First, AI-Enhanced Email Builder for Teams",
+  description:
+    "Mademail Is The Design-First, AI-Enhanced Email Builder for Teams.",
 };
 
 export default function RootLayout({
