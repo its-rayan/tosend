@@ -3,10 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
-    "./lib/*": "./src/lib/*.ts",
     "./globals.css": "./src/styles/globals.css",
     "./postcss.config": "./postcss.config.mjs",
-    "./tailwind.config": "./tailwind.config.ts",
+    "./lib/*": "./src/lib/*.ts",
     ".": "./src/index.ts"
   },
   "scripts": {
