@@ -1,5 +1,5 @@
 {
-  "name": "mademail",
+  "name": "maillo",
   "private": true,
   "scripts": {
     "build": "turbo run build",
