@@ -1,5 +1,5 @@
 {
-  "name": "maillo",
+  "name": "maillow",
   "private": true,
   "scripts": {
     "build": "turbo run build",
