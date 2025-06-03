@@ -1,10 +1,4 @@
 import { NavActions } from "@/components/nav-actions";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbList,
-  BreadcrumbPage,
-} from "@/components/ui/breadcrumb";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 export default function Page() {
@@ -19,7 +13,7 @@ export default function Page() {
               orientation="vertical"
               className="mr-2 data-[orientation=vertical]:h-4"
             /> */}
-            <Breadcrumb>
+            {/* <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
                   <BreadcrumbPage className="line-clamp-1">
@@ -27,7 +21,7 @@ export default function Page() {
                   </BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
-            </Breadcrumb>
+            </Breadcrumb> */}
           </div>
           <div className="ml-auto px-3">
             <NavActions />
