@@ -16,6 +16,7 @@
     "@radix-ui/react-separator": "^1.1.7",
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-tooltip": "^1.2.7",
+    "@tiptap/extension-image": "^2.14.0",
     "@tiptap/pm": "^2.14.0",
     "@tiptap/react": "^2.14.0",
     "@tiptap/starter-kit": "^2.14.0",
@@ -25,7 +26,8 @@
     "next": "15.3.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "tailwind-merge": "^3.3.0"
+    "tailwind-merge": "^3.3.0",
+    "tiptap-extension-resize-image": "^1.2.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
