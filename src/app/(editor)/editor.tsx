@@ -14,7 +14,7 @@ export function Editor() {
       },
     },
     extensions: [StarterKit, Image, ImageResize],
-    content: `<h1>What do you want to send?</h1>`,
+    content: `<p>What do you want to send?</p>`,
     immediatelyRender: false,
   });
 
