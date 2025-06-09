@@ -4,6 +4,7 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import ImageResize from "tiptap-extension-resize-image";
+import FontFamily from "@tiptap/extension-font-family";
 
 export function Editor() {
   const editor = useEditor({
@@ -13,7 +14,7 @@ export function Editor() {
           "focus:outline-none bg-white text-black flex flex-col min-h-[1054px] w-[768px] cursor-text",
       },
     },
-    extensions: [StarterKit, Image, ImageResize],
+    extensions: [StarterKit, Image, ImageResize, FontFamily],
     content: `<p>What do you want to send?</p>`,
     immediatelyRender: false,
   });
