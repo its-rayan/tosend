@@ -5,9 +5,36 @@ import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import ImageResize from "tiptap-extension-resize-image";
 import FontFamily from "@tiptap/extension-font-family";
+import { useEditorStore } from "@/store/use-editor-store";
 
 export function Editor() {
+  const { setEditor } = useEditorStore();
   const editor = useEditor({
+    onCreate: ({ editor }) => {
+      setEditor(editor);
+    },
+    onUpdate: ({ editor }) => {
+      setEditor(editor);
+    },
+    onSelectionUpdate: ({ editor }) => {
+      setEditor(editor);
+    },
+    onTransaction: ({ editor }) => {
+      setEditor(editor);
+    },
+    onFocus: ({ editor }) => {
+      setEditor(editor);
+    },
+    onBlur: ({ editor }) => {
+      setEditor(editor);
+    },
+    onContentError: ({ editor, error }) => {
+      console.error("Content error:", error);
+      setEditor(editor);
+    },
+    onDestroy: () => {
+      setEditor(null);
+    },
     editorProps: {
       attributes: {
         class:

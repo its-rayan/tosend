@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { useEditorStore } from "@/store/use-editor-store";
 import {
   AlignCenter,
   AlignLeft,
@@ -85,6 +86,13 @@ const ToolbarButton = ({ onClick, isActive, icon: Icon }: ToolbarButton) => {
 };
 
 export function EditorToolbar() {
+  const { editor } = useEditorStore();
+  if (!editor) {
+    return null;
+  }
+
+  console.log("Editor instance:", { editor });
+
   return (
     <div className="flex h-full w-full bg-[#fff] items-center gap-1">
       <div className="flex items-center gap-2">
