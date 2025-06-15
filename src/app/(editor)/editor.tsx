@@ -5,6 +5,7 @@ import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import ImageResize from "tiptap-extension-resize-image";
 import FontFamily from "@tiptap/extension-font-family";
+import Underline from "@tiptap/extension-underline";
 import { useEditorStore } from "@/store/use-editor-store";
 
 export function Editor() {
@@ -41,7 +42,7 @@ export function Editor() {
           "focus:outline-none bg-white text-black flex flex-col min-h-[1054px] w-[768px] cursor-text",
       },
     },
-    extensions: [StarterKit, Image, ImageResize, FontFamily],
+    extensions: [StarterKit, Image, ImageResize, FontFamily, Underline],
     content: `<p>What do you want to send?</p>`,
     immediatelyRender: false,
   });
