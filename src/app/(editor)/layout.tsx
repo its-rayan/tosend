@@ -1,4 +1,5 @@
 import HistoryButton from "@/components/editor/history-button";
+import MarkButton from "@/components/editor/mark-button";
 import { ToolbarGroup, ToolbarSeparator } from "@/components/editor/toolbar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
@@ -16,6 +17,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </ToolbarGroup>
 
             <ToolbarSeparator />
+
+            <ToolbarGroup>
+              <MarkButton type="bold" />
+              <MarkButton type="italic" />
+              <MarkButton type="underline" />
+              <MarkButton type="strike" />
+            </ToolbarGroup>
           </div>
           <div className="flex flex-1 items-center gap-2 px-3 justify-end"></div>
         </header>

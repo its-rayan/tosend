@@ -6,11 +6,6 @@ import ToolbarButton from "./toolbar-button";
 
 type HistoryAction = "undo" | "redo";
 
-const historyIcons = {
-  undo: Undo,
-  redo: Redo,
-};
-
 const historyShortcutKeys: Partial<Record<HistoryAction, string>> = {
   undo: "Ctrl-z",
   redo: "Ctrl-Shift-z",
@@ -19,6 +14,11 @@ const historyShortcutKeys: Partial<Record<HistoryAction, string>> = {
 const historyActionLabels: Record<HistoryAction, string> = {
   undo: "Undo",
   redo: "Redo",
+};
+
+const historyIcons = {
+  undo: Undo,
+  redo: Redo,
 };
 
 export default function HistoryButton({ action }: { action: HistoryAction }) {

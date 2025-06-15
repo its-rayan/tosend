@@ -13,7 +13,7 @@ export const ShortcutDisplay: React.FC<{ shortcuts: string[] }> = ({
   if (shortcuts.length === 0) return null;
 
   return (
-    <div className="flex items-center gap-1 text-sm text-muted-foreground ">
+    <div className="flex items-center gap-1 text-xs text-muted-foreground ">
       {shortcuts.map((key, index) => (
         <React.Fragment key={index}>
           {index > 0 && <kbd>+</kbd>}
