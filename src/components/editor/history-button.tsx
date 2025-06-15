@@ -1,8 +1,8 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import { type Editor } from "@tiptap/react";
+import { useEditorStore } from "@/store/use-editor-store";
 import { Redo, Undo } from "lucide-react";
+import ToolbarButton from "./toolbar-button";
 
 type HistoryAction = "undo" | "redo";
 
@@ -21,26 +21,22 @@ const historyActionLabels: Record<HistoryAction, string> = {
   redo: "Redo",
 };
 
-export default function HistoryButton({
-  editor,
-  action,
-}: {
-  editor?: Editor | null;
-  action: HistoryAction;
-}) {
+export default function HistoryButton({ action }: { action: HistoryAction }) {
+  const { editor } = useEditorStore();
+  if (!editor) {
+    return null;
+  }
   const Icon = historyIcons[action];
+  const actionLabel = historyActionLabels[action];
+  const shortcutKey = historyShortcutKeys[action];
+
   return (
-    <button
-      onClick={() => {
-        if (!editor) return;
-        editor.chain().focus()[action]().run();
-      }}
-      className={cn(
-        "text-sm p-2 flex items-center rounded-sm hover:bg-neutral-100 text-muted-foreground align-center"
-      )}
+    <ToolbarButton
+      onClick={() => editor.chain().focus()[action]().run()}
+      tooltip={actionLabel}
+      shortcutKeys={shortcutKey}
     >
       <Icon className="h-4 w-4" aria-hidden="true" />
-      <span className="sr-only">{historyActionLabels[action]}</span>
-    </button>
+    </ToolbarButton>
   );
 }
