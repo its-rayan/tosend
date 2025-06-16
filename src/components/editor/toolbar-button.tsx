@@ -49,6 +49,21 @@ export default function ToolbarButton({
     [shortcutKeys, isMac]
   );
 
+  if (!tooltip) {
+    return (
+      <button
+        onClick={onClick}
+        className={cn(
+          "text-sm p-2 flex items-center rounded-sm hover:bg-neutral-100 text-muted-foreground align-center",
+          isActive &&
+            "bg-neutral-200 hover:bg-neutral-200 text-accent-foreground"
+        )}
+      >
+        {children}
+      </button>
+    );
+  }
+
   return (
     <Tooltip>
       <TooltipTrigger asChild>

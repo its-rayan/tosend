@@ -1,3 +1,4 @@
+import HeadingDropdownMenu from "@/components/editor/heading-dropdown/heading-dropdown-menu";
 import HistoryButton from "@/components/editor/history-button";
 import MarkButton from "@/components/editor/mark-button";
 import { ToolbarGroup, ToolbarSeparator } from "@/components/editor/toolbar";
@@ -14,6 +15,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <ToolbarGroup>
               <HistoryButton action="undo" />
               <HistoryButton action="redo" />
+            </ToolbarGroup>
+
+            <ToolbarSeparator />
+
+            <ToolbarGroup>
+              <HeadingDropdownMenu />
             </ToolbarGroup>
 
             <ToolbarSeparator />
