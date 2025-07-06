@@ -29,11 +29,18 @@ import {
   AlignRight,
   AlignJustify,
   ImagePlus,
+  ChevronDown,
 } from "lucide-react";
 
 // Editor Store
 // This is a custom store for managing the editor instance
 import { useEditorStore } from "@/store/use-editor-store";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { HeadingLevel } from "@/util/constants/editor";
 
 const ToolbarSeparator = () => {
   return (
@@ -70,6 +77,61 @@ const ToolbarButton = ({
     >
       <Icon className="h-4 w-4" aria-hidden="true" />
     </button>
+  );
+};
+
+const ToolbarHeadingDropdown = () => {
+  const { editor } = useEditorStore();
+  const headings = [
+    { label: "Heading 1", value: 1 },
+    { label: "Heading 2", value: 2 },
+    { label: "Heading 3", value: 3 },
+    { label: "Heading 4", value: 4 },
+  ];
+
+  const getCurrentHeading = () => {
+    for (let level = 1; level <= 4; level++) {
+      if (editor?.isActive("heading", { level })) {
+        return `Heading ${level}`;
+      }
+    }
+    return "Normal Text";
+  };
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button
+          className={cn(
+            "text-sm p-2 flex items-center rounded-sm hover:bg-neutral-100 text-muted-foreground align-center"
+          )}
+        >
+          <span>{getCurrentHeading() || "Normal Text"}</span>
+          <ChevronDown className="h-4 w-4" aria-hidden="true" />
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="flex flex-col p-1 gap-y-1">
+        {headings.map((heading) => (
+          <button
+            key={heading.value}
+            onClick={() => {
+              if (heading.value === 0) {
+                editor?.chain().focus().setParagraph().run();
+              } else {
+                editor
+                  ?.chain()
+                  .focus()
+                  .setHeading({ level: heading.value as HeadingLevel })
+                  .run();
+              }
+            }}
+            className="text-sm p-2 flex items-center rounded-sm hover:bg-neutral-100 text-muted-foreground"
+          >
+            {heading.label}
+          </button>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 
@@ -174,6 +236,12 @@ const MainToolbar = () => {
               isActive={section.isActive}
             />
           ))}
+        </ToolbarGroup>
+
+        <ToolbarSeparator />
+
+        <ToolbarGroup>
+          <ToolbarHeadingDropdown />
         </ToolbarGroup>
 
         <ToolbarSeparator />
