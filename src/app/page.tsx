@@ -10,6 +10,7 @@ import { useEditor, EditorContent } from "@tiptap/react";
 // https://tiptap.dev/api/extensions
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
+import TextAlign from "@tiptap/extension-text-align";
 
 // Lucide Icons
 // https://lucide.dev/icons
@@ -21,6 +22,10 @@ import {
   Underline as UnderlineIcon,
   Undo,
   type LucideIcon,
+  AlignLeft,
+  AlignCenter,
+  AlignRight,
+  AlignJustify,
 } from "lucide-react";
 
 // Editor Store
@@ -111,6 +116,32 @@ const MainToolbar = () => {
         isActive: editor?.isActive("strike"),
       },
     ],
+    [
+      {
+        label: "Align Left",
+        icon: AlignLeft,
+        onClick: () => editor?.chain().focus().setTextAlign("left").run(),
+        isActive: editor?.isActive({ textAlign: "left" }),
+      },
+      {
+        label: "Align Center",
+        icon: AlignCenter,
+        onClick: () => editor?.chain().focus().setTextAlign("center").run(),
+        isActive: editor?.isActive({ textAlign: "center" }),
+      },
+      {
+        label: "Align Right",
+        icon: AlignRight,
+        onClick: () => editor?.chain().focus().setTextAlign("right").run(),
+        isActive: editor?.isActive({ textAlign: "right" }),
+      },
+      {
+        label: "Justify",
+        icon: AlignJustify,
+        onClick: () => editor?.chain().focus().setTextAlign("justify").run(),
+        isActive: editor?.isActive({ textAlign: "justify" }),
+      },
+    ],
   ];
 
   return (
@@ -134,6 +165,19 @@ const MainToolbar = () => {
 
         <ToolbarGroup>
           {sections[1].map((section, index) => (
+            <ToolbarButton
+              key={index}
+              onClick={section.onClick}
+              icon={section.icon}
+              isActive={section.isActive}
+            />
+          ))}
+        </ToolbarGroup>
+
+        <ToolbarSeparator />
+
+        <ToolbarGroup>
+          {sections[2].map((section, index) => (
             <ToolbarButton
               key={index}
               onClick={section.onClick}
@@ -176,7 +220,13 @@ const Editor = () => {
     onDestroy: () => {
       setEditor(null);
     },
-    extensions: [StarterKit, Underline],
+    extensions: [
+      StarterKit,
+      Underline,
+      TextAlign.configure({
+        types: ["heading", "paragraph"],
+      }),
+    ],
     content: "<p>Hello World! 🌎️</p>",
   });
 
