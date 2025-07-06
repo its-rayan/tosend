@@ -11,6 +11,8 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import TextAlign from "@tiptap/extension-text-align";
+import Image from "@tiptap/extension-image";
+import ImageResize from "tiptap-extension-resize-image";
 
 // Lucide Icons
 // https://lucide.dev/icons
@@ -26,6 +28,7 @@ import {
   AlignCenter,
   AlignRight,
   AlignJustify,
+  ImagePlus,
 } from "lucide-react";
 
 // Editor Store
@@ -142,6 +145,18 @@ const MainToolbar = () => {
         isActive: editor?.isActive({ textAlign: "justify" }),
       },
     ],
+    [
+      {
+        label: "Add Image",
+        icon: ImagePlus,
+        onClick: () => {
+          const url = prompt("Enter image URL");
+          if (url) {
+            editor?.chain().focus().setImage({ src: url }).run();
+          }
+        },
+      },
+    ],
   ];
 
   return (
@@ -178,6 +193,19 @@ const MainToolbar = () => {
 
         <ToolbarGroup>
           {sections[2].map((section, index) => (
+            <ToolbarButton
+              key={index}
+              onClick={section.onClick}
+              icon={section.icon}
+              isActive={section.isActive}
+            />
+          ))}
+        </ToolbarGroup>
+
+        <ToolbarSeparator />
+
+        <ToolbarGroup>
+          {sections[3].map((section, index) => (
             <ToolbarButton
               key={index}
               onClick={section.onClick}
@@ -226,6 +254,8 @@ const Editor = () => {
       TextAlign.configure({
         types: ["heading", "paragraph"],
       }),
+      Image,
+      ImageResize,
     ],
     content: "<p>Hello World! 🌎️</p>",
   });
