@@ -149,7 +149,7 @@ const ToolbarHeadingDropdown = () => {
                   if (level < 1) {
                     editor?.chain().focus().setParagraph().run();
                   } else {
-                    editor?.chain().focus().setHeading({ level: level }).run();
+                    editor?.chain().focus().toggleHeading({ level }).run();
                   }
                 }}
                 className={cn(
