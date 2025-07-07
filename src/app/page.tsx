@@ -4,7 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 
 // TipTap Editor
-import { useEditor, EditorContent, isActive } from "@tiptap/react";
+import { useEditor, EditorContent } from "@tiptap/react";
 
 // TipTap Extensions
 // https://tiptap.dev/api/extensions
@@ -108,7 +108,7 @@ const ToolbarHeadingDropdown = () => {
     if (!activeLevel)
       return <HeadingIcon className="h-4 w-4" aria-hidden="true" />;
 
-    const ActiveIcon = headingIcons[activeLevel];
+    const ActiveIcon = headingIcons[activeLevel] as LucideIcon;
     return <ActiveIcon className="h-4 w-4" aria-hidden="true" />;
   };
 
