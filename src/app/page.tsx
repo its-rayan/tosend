@@ -4,7 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 
 // TipTap Editor
-import { useEditor, EditorContent } from "@tiptap/react";
+import { useEditor, EditorContent, isActive } from "@tiptap/react";
 
 // TipTap Extensions
 // https://tiptap.dev/api/extensions
@@ -30,6 +30,11 @@ import {
   AlignJustify,
   ImagePlus,
   ChevronDown,
+  Heading as HeadingIcon,
+  Heading1 as HeadingOneIcon,
+  Heading2 as HeadingTwoIcon,
+  Heading3 as HeadingThreeIcon,
+  Heading4 as HeadingFourIcon,
 } from "lucide-react";
 
 // Editor Store
@@ -38,6 +43,7 @@ import { useEditorStore } from "@/store/use-editor-store";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { HeadingLevel } from "@/util/constants/editor";
@@ -82,20 +88,37 @@ const ToolbarButton = ({
 
 const ToolbarHeadingDropdown = () => {
   const { editor } = useEditorStore();
-  const headings = [
-    { label: "Heading 1", value: 1 },
-    { label: "Heading 2", value: 2 },
-    { label: "Heading 3", value: 3 },
-    { label: "Heading 4", value: 4 },
-  ];
+
+  const levels: HeadingLevel[] = [1, 2, 3, 4];
+
+  const headingIcons: Partial<Record<HeadingLevel, LucideIcon>> = {
+    1: HeadingOneIcon,
+    2: HeadingTwoIcon,
+    3: HeadingThreeIcon,
+    4: HeadingFourIcon,
+  };
+
+  const getActiveIcon = () => {
+    if (!editor) return <HeadingIcon className="h-4 w-4" aria-hidden="true" />;
+
+    const activeLevel = levels.find((level) =>
+      editor.isActive("heading", { level })
+    ) as HeadingLevel | undefined;
+
+    if (!activeLevel)
+      return <HeadingIcon className="h-4 w-4" aria-hidden="true" />;
+
+    const ActiveIcon = headingIcons[activeLevel];
+    return <ActiveIcon className="h-4 w-4" aria-hidden="true" />;
+  };
 
   const getCurrentHeading = () => {
     for (let level = 1; level <= 4; level++) {
       if (editor?.isActive("heading", { level })) {
-        return `Heading ${level}`;
+        return getActiveIcon();
       }
     }
-    return "Normal Text";
+    return null; // No heading active, return null
   };
 
   return (
@@ -103,33 +126,44 @@ const ToolbarHeadingDropdown = () => {
       <DropdownMenuTrigger asChild>
         <button
           className={cn(
-            "text-sm p-2 flex items-center rounded-sm hover:bg-neutral-100 text-muted-foreground align-center"
+            "text-sm p-2 flex items-center rounded-sm hover:bg-neutral-100 text-muted-foreground align-center",
+            !!getCurrentHeading() &&
+              "bg-neutral-200 hover:bg-neutral-200 text-accent-foreground"
           )}
         >
-          <span>{getCurrentHeading() || "Normal Text"}</span>
-          <ChevronDown className="h-4 w-4" aria-hidden="true" />
+          <span>
+            {getCurrentHeading() || (
+              <HeadingIcon className="h-4 w-4" aria-hidden="true" />
+            )}
+          </span>
+          <ChevronDown className="h-2 w-2" aria-hidden="true" />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="flex flex-col p-1 gap-y-1">
-        {headings.map((heading) => (
-          <button
-            key={heading.value}
-            onClick={() => {
-              if (heading.value === 0) {
-                editor?.chain().focus().setParagraph().run();
-              } else {
-                editor
-                  ?.chain()
-                  .focus()
-                  .setHeading({ level: heading.value as HeadingLevel })
-                  .run();
-              }
-            }}
-            className="text-sm p-2 flex items-center rounded-sm hover:bg-neutral-100 text-muted-foreground"
-          >
-            {heading.label}
-          </button>
-        ))}
+        {levels.map((level) => {
+          const Icon = headingIcons[level] || HeadingOneIcon; // Default to HeadingOneIcon if not found
+          return (
+            <DropdownMenuItem key={`heading-${level}`} asChild>
+              <button
+                onClick={() => {
+                  if (level < 1) {
+                    editor?.chain().focus().setParagraph().run();
+                  } else {
+                    editor?.chain().focus().setHeading({ level: level }).run();
+                  }
+                }}
+                className={cn(
+                  "text-sm p-2 flex items-center rounded-sm hover:bg-neutral-100 text-muted-foreground",
+                  editor?.isActive("heading", { level }) &&
+                    "bg-neutral-200 hover:bg-neutral-200 text-accent-foreground"
+                )}
+              >
+                <Icon className="h-4 w-4 mr-2" aria-hidden="true" />
+                {`Heading ${level}`}
+              </button>
+            </DropdownMenuItem>
+          );
+        })}
       </DropdownMenuContent>
     </DropdownMenu>
   );
