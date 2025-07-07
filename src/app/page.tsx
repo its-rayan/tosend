@@ -350,6 +350,12 @@ const Editor = () => {
     onDestroy: () => {
       setEditor(null);
     },
+    editorProps: {
+      attributes: {
+        class:
+          "focus:outline-none p-12 flex flex-col h-full w-full text-base cursor-text",
+      },
+    },
     extensions: [
       StarterKit,
       Underline,
@@ -362,7 +368,11 @@ const Editor = () => {
     content: "<p>Hello World! 🌎️</p>",
   });
 
-  return <EditorContent editor={editor} />;
+  return (
+    <div className="h-[calc(100vh-44px)] max-w-[640px] w-full mx-auto">
+      <EditorContent editor={editor} />
+    </div>
+  );
 };
 
 export default function Page() {
