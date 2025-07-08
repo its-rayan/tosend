@@ -174,7 +174,7 @@ const ToolbarHeadingDropdown = () => {
 const ToolbarListDropdown = () => {
   const { editor } = useEditorStore();
 
-  const getCurrentHeading = () => {
+  const getCurrentList = () => {
     if (editor?.isActive("bulletList")) {
       return <List className="h-4 w-4" aria-hidden="true" />;
     }
@@ -191,12 +191,12 @@ const ToolbarListDropdown = () => {
         <button
           className={cn(
             "text-sm p-2 flex items-center rounded-sm hover:bg-neutral-100 text-muted-foreground align-center",
-            !!getCurrentHeading() &&
+            !!getCurrentList() &&
               "bg-neutral-200 hover:bg-neutral-200 text-accent-foreground"
           )}
         >
           <span>
-            {getCurrentHeading() || (
+            {getCurrentList() || (
               <List className="h-4 w-4" aria-hidden="true" />
             )}
           </span>
