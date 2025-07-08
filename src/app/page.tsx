@@ -35,6 +35,8 @@ import {
   Heading2 as HeadingTwoIcon,
   Heading3 as HeadingThreeIcon,
   Heading4 as HeadingFourIcon,
+  List,
+  ListOrdered,
 } from "lucide-react";
 
 // Editor Store
@@ -169,6 +171,70 @@ const ToolbarHeadingDropdown = () => {
   );
 };
 
+const ToolbarListDropdown = () => {
+  const { editor } = useEditorStore();
+
+  const getCurrentHeading = () => {
+    if (editor?.isActive("bulletList")) {
+      return <List className="h-4 w-4" aria-hidden="true" />;
+    }
+    if (editor?.isActive("orderedList")) {
+      return <ListOrdered className="h-4 w-4" aria-hidden="true" />;
+    }
+
+    return null; // No list active, return null
+  };
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button
+          className={cn(
+            "text-sm p-2 flex items-center rounded-sm hover:bg-neutral-100 text-muted-foreground align-center",
+            !!getCurrentHeading() &&
+              "bg-neutral-200 hover:bg-neutral-200 text-accent-foreground"
+          )}
+        >
+          <span>
+            {getCurrentHeading() || (
+              <List className="h-4 w-4" aria-hidden="true" />
+            )}
+          </span>
+          <ChevronDown className="h-2 w-2" aria-hidden="true" />
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="flex flex-col p-1 gap-y-1">
+        <DropdownMenuItem asChild>
+          <button
+            onClick={() => editor?.chain().focus().toggleBulletList().run()}
+            className={cn(
+              "text-sm p-2 flex items-center rounded-sm hover:bg-neutral-100 text-muted-foreground",
+              editor?.isActive("bulletList") &&
+                "bg-neutral-200 hover:bg-neutral-200 text-accent-foreground"
+            )}
+          >
+            <List className="h-4 w-4 mr-2" aria-hidden="true" />
+            {`Bullet List`}
+          </button>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <button
+            onClick={() => editor?.chain().focus().toggleOrderedList().run()}
+            className={cn(
+              "text-sm p-2 flex items-center rounded-sm hover:bg-neutral-100 text-muted-foreground",
+              editor?.isActive("orderedList") &&
+                "bg-neutral-200 hover:bg-neutral-200 text-accent-foreground"
+            )}
+          >
+            <ListOrdered className="h-4 w-4 mr-2" aria-hidden="true" />
+            {`Ordered List`}
+          </button>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
 const MainToolbar = () => {
   const { editor } = useEditorStore();
   const sections: {
@@ -276,6 +342,7 @@ const MainToolbar = () => {
 
         <ToolbarGroup>
           <ToolbarHeadingDropdown />
+          <ToolbarListDropdown />
         </ToolbarGroup>
 
         <ToolbarSeparator />
