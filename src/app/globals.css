@@ -184,4 +184,15 @@
   h6 {
     font-size: 1rem;
   }
+
+  /* Link styles */
+  a {
+    color: oklch(54.6% 0.245 262.881);
+    cursor: pointer;
+
+    &:hover {
+      color: oklch(54.6% 0.245 262.881);
+      text-decoration: underline;
+    }
+  }
 }

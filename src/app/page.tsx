@@ -13,6 +13,7 @@ import Underline from "@tiptap/extension-underline";
 import TextAlign from "@tiptap/extension-text-align";
 import Image from "@tiptap/extension-image";
 import ImageResize from "tiptap-extension-resize-image";
+import Link from "@tiptap/extension-link";
 
 // Lucide Icons
 // https://lucide.dev/icons
@@ -37,6 +38,7 @@ import {
   Heading4 as HeadingFourIcon,
   List,
   ListOrdered,
+  Link as LinkIcon,
 } from "lucide-react";
 
 // Editor Store
@@ -356,6 +358,16 @@ const MainToolbar = () => {
               isActive={section.isActive}
             />
           ))}
+          <ToolbarButton
+            onClick={() => {
+              const url = prompt("Enter link URL");
+              if (url) {
+                editor?.chain().focus().setLink({ href: url }).run();
+              }
+            }}
+            icon={LinkIcon}
+            isActive={editor?.isActive("link") ? true : false}
+          />
         </ToolbarGroup>
 
         <ToolbarSeparator />
@@ -431,6 +443,11 @@ const Editor = () => {
       }),
       Image,
       ImageResize,
+      Link.configure({
+        autolink: true,
+        openOnClick: true,
+        linkOnPaste: true,
+      }),
     ],
     content: "<p>Hello World! 🌎️</p>",
   });
