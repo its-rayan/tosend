@@ -39,6 +39,7 @@ import {
   List,
   ListOrdered,
   Link as LinkIcon,
+  Clipboard,
 } from "lucide-react";
 
 // Editor Store
@@ -51,6 +52,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { HeadingLevel } from "@/util/constants/editor";
+import { Button } from "@/components/ui/button";
 
 const defaultContent = `
   <h1>Welcome to ToSend 👋</h1>
@@ -90,10 +92,12 @@ const ToolbarButton = ({
   onClick,
   isActive,
   icon: Icon,
+  label,
 }: {
   onClick?: () => void;
   isActive?: boolean;
   icon: LucideIcon;
+  label?: string;
 }) => {
   return (
     <button
@@ -104,6 +108,7 @@ const ToolbarButton = ({
       )}
     >
       <Icon className="h-4 w-4" aria-hidden="true" />
+      {label && <span className="ml-2">{label}</span>}
     </button>
   );
 };
@@ -412,6 +417,27 @@ const MainToolbar = () => {
               isActive={section.isActive}
             />
           ))}
+        </ToolbarGroup>
+
+        <ToolbarSeparator />
+
+        <ToolbarGroup>
+          <Button
+            size={"sm"}
+            onClick={() => {
+              if (editor) {
+                const html = editor.getHTML();
+                navigator.clipboard.writeText(html).then(() => {
+                  alert("HTML copied to clipboard!");
+                });
+              } else {
+                alert("Editor not initialized.");
+              }
+            }}
+          >
+            <Clipboard className="h-4 w-4" aria-hidden="true" />
+            Copy HTML
+          </Button>
         </ToolbarGroup>
       </ToolbarContainer>
     </div>
