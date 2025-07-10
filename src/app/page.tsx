@@ -52,6 +52,24 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { HeadingLevel } from "@/util/constants/editor";
 
+const defaultContent = `
+  <h1>Welcome to ToSend 👋</h1>
+  <p>Your space to design beautiful, responsive email templates—without the hassle.</p>
+
+  <p></p>
+  <h2>✨ Get Started</h2>
+  <ul>
+    <li>Add your logo, text, and images</li>
+    <li>Drag and drop layout blocks</li>
+    <li>Customize styles to match your brand</li>
+  </ul>
+
+  <p>Everything you create here is optimized for inboxes of all shapes and sizes.</p>
+  <p></p>
+
+  <p>Happy designing,<br/>The ToSend Team</p>
+`;
+
 const ToolbarSeparator = () => {
   return (
     <div className="h-5">
@@ -449,7 +467,7 @@ const Editor = () => {
         linkOnPaste: true,
       }),
     ],
-    content: "<p>Hello World! 🌎️</p>",
+    content: defaultContent,
   });
 
   return (
