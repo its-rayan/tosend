@@ -1,4 +1,5 @@
 import connectToMongoClient from '@/database/connect-mongo-client';
+import { AUTH_FROM_EMAIL, AUTH_PAGES } from '@/util/constants/auth';
 import { MongoDBAdapter } from '@auth/mongodb-adapter';
 import NextAuth from 'next-auth';
 import Google from 'next-auth/providers/google';
@@ -10,8 +11,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Resend({
       apiKey: process.env.RESEND_API_KEY,
-      from: 'no-reply@resend.tosend.co',
-      name: 'Email',
+      from: AUTH_FROM_EMAIL,
     }),
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID,
@@ -19,4 +19,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   adapter: MongoDBAdapter(mongoClient),
+  pages: {
+    signIn: AUTH_PAGES.SIGN_IN,
+    newUser: AUTH_PAGES.SIGN_UP,
+  },
 });
