@@ -6,3 +6,5 @@ export const AUTH_PAGES = {
   SIGN_IN: '/auth/signin',
   SIGN_UP: '/auth/signup',
 };
+
+export const AUTH_SUCCESS_CALLBACK = '/workspace';

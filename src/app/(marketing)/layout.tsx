@@ -1,7 +1,4 @@
-'use client';
-
 import { Button } from '@/components/ui/button';
-import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 
 export default function MarketingLayout({
@@ -25,18 +22,21 @@ export default function MarketingLayout({
 
           <div className="flex flex-row items-center space-x-4">
             <div className="flex flex-row gap-2.5">
-              <Button size="sm" variant="secondary" className="cursor-pointer">
-                Login
-              </Button>
-              <Button
-                size="sm"
-                className="cursor-pointer"
-                onClick={() =>
-                  signIn('undefined', { callbackUrl: '/workspace' })
-                }
-              >
-                Get Started For Free
-              </Button>
+              <Link href="/auth/signin">
+                <Button
+                  size="sm"
+                  variant="secondary"
+                  className="cursor-pointer"
+                >
+                  Login
+                </Button>
+              </Link>
+
+              <Link href="/auth/signup">
+                <Button size="sm" className="cursor-pointer">
+                  Get Started For Free
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
