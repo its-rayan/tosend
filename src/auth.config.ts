@@ -21,7 +21,7 @@ export default {
         return sendEmail({
           email,
           from: provider.from,
-          subject: `Your ${process.env.NEXT_PUBLIC_APP_NAME} Login Link`,
+          subject: `Your ${process.env.NEXT_PUBLIC_APP_NAME} Login Link from Nodemailer`,
           html: `<p>Sign in to ${url} by clicking <a href="${url}">here</a>.</p>`,
         });
       },
@@ -29,6 +29,14 @@ export default {
     Resend({
       apiKey: process.env.RESEND_API_KEY,
       from: AUTH_FROM_EMAIL,
+      sendVerificationRequest: ({ identifier: email, url, provider }) => {
+        return sendEmail({
+          email,
+          from: provider.from,
+          subject: `Your ${process.env.NEXT_PUBLIC_APP_NAME} Login Link from Resend`,
+          html: `<p>Sign in to ${url} by clicking <a href="${url}">here</a>.</p>`,
+        });
+      },
     }),
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID,

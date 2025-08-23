@@ -20,8 +20,8 @@ export default function SignInForm() {
     setIsPending(true);
     e.preventDefault();
     const { email } = getValues();
-    // await signIn('resend', { email, redirectTo: '/workspace' });
-    await signIn('nodemailer', { email, redirectTo: '/workspace' });
+    await signIn('resend', { email, redirectTo: '/workspace' });
+    // await signIn('nodemailer', { email, redirectTo: '/workspace' });
     setIsPending(false);
   };
 
