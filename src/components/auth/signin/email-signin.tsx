@@ -20,7 +20,7 @@ export default function SignInForm() {
     setIsPending(true);
     e.preventDefault();
     const { email } = getValues();
-    await signIn('resend', { email, callbackUrl: '/workspace' });
+    await signIn('resend', { email, redirectTo: '/workspace' });
     setIsPending(false);
   };
 
