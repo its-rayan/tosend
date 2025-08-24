@@ -18,9 +18,6 @@ export default function SignInForm() {
       console.error('Error checking account existence:', error);
       toast.error(error.serverError);
     },
-    onSuccess: () => {
-      setIsVerifyingEmail(true);
-    },
   });
 
   const form = useForm<{ email: string }>({
@@ -45,6 +42,9 @@ export default function SignInForm() {
       toast.error('No account found with that email address. Please sign up.');
       return;
     }
+
+    // TODO: FIND A BETTER WAY TO OPTIMISTICALLY SHOW VERIFY EMAIL COMPONENT
+    setIsVerifyingEmail(true);
 
     const provider =
       process.env.NODE_ENV === 'production' ? 'resend' : 'nodemailer';
