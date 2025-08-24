@@ -1,6 +1,6 @@
 import AuthMethodsSeparator from '@/components/auth/auth-methods-separator';
 import SignInForm from '@/components/auth/signin/email-signin';
-import GoogleSignIn from '@/components/auth/signin/google-sign';
+import GoogleSignIn from '@/components/auth/signin/google-signin';
 import {
   Card,
   CardContent,
