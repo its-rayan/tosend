@@ -18,7 +18,7 @@ export default function GoogleSignIn() {
             fill="currentColor"
           />
         </svg>
-        Continue with Google
+        Google
       </Button>
     </div>
   );

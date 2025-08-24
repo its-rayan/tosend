@@ -16,13 +16,15 @@ export default function Page() {
     <Card className="w-full max-w-sm">
       <CardHeader className="text-center">
         <CardTitle className="text-xl">Welcome back</CardTitle>
-        <CardDescription>Login with your Google account</CardDescription>
+        <CardDescription>
+          Login to your account with your email below
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="grid gap-6">
-          <GoogleSignIn />
-          <AuthMethodsSeparator />
           <SignInForm />
+          <AuthMethodsSeparator />
+          <GoogleSignIn />
           <div className="text-center text-sm">
             Don&apos;t have an account?{' '}
             <Link

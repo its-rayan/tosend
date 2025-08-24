@@ -17,14 +17,14 @@ export default function Page() {
       <CardHeader className="text-center">
         <CardTitle className="text-xl">Create an account</CardTitle>
         <CardDescription>
-          Create an account with your Google account
+          Enter your email below to create your account
         </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="grid gap-6">
-          <GoogleSignUp />
-          <AuthMethodsSeparator />
           <SignUpForm />
+          <AuthMethodsSeparator />
+          <GoogleSignUp />
           <div className="text-center text-sm">
             Already have an account?{' '}
             <Link
