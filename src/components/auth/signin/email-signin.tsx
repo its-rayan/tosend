@@ -41,7 +41,10 @@ export default function SignInForm() {
       return;
     }
 
-    await signIn('nodemailer', { email, redirectTo: '/workspace' });
+    const provider =
+      process.env.NODE_ENV === 'production' ? 'resend' : 'nodemailer';
+
+    await signIn(provider, { email, redirectTo: '/workspace' });
   };
 
   return (
