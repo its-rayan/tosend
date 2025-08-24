@@ -17,6 +17,7 @@ const globalWithMongoose = global as GlobalThis;
 
 const MONGO_URI = process.env.MONGO_URI;
 
+// TODO: Set global mongoose instance only if not in production
 async function connectToDbClient() {
   try {
     if (!MONGO_URI) {
@@ -30,7 +31,7 @@ async function connectToDbClient() {
     }
 
     if (cached.conn) {
-      console.log('Cached mongoose connection is called!');
+      console.log('💾 Cached mongoose connection is called!');
       return cached.conn;
     }
 

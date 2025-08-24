@@ -6,15 +6,20 @@ import { Label } from '@/components/ui/label';
 import { checkAccountExistsAction } from '@/lib/actions/auth/check-account-exists';
 import { signIn } from 'next-auth/react';
 import { useAction } from 'next-safe-action/hooks';
-import { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+import VerifyEmail from '../verify-email';
 
 export default function SignInForm() {
+  const [isVerifyingEmail, setIsVerifyingEmail] = useState(false);
   const { executeAsync, isPending } = useAction(checkAccountExistsAction, {
     onError: ({ error }) => {
       console.error('Error checking account existence:', error);
       toast.error(error.serverError);
+    },
+    onSuccess: () => {
+      setIsVerifyingEmail(true);
     },
   });
 
@@ -37,14 +42,18 @@ export default function SignInForm() {
     // check if account exists before sending magic link
     const { accountExists } = result.data;
     if (!accountExists) {
-      toast.error('No account found with that email address.');
+      toast.error('No account found with that email address. Please sign up.');
       return;
     }
 
     const provider =
       process.env.NODE_ENV === 'production' ? 'resend' : 'nodemailer';
 
-    await signIn(provider, { email, redirectTo: '/workspace' });
+    await signIn(provider, {
+      email,
+      redirectTo: '/workspace',
+      redirect: false,
+    });
   };
 
   return (
@@ -65,6 +74,7 @@ export default function SignInForm() {
           {isPending ? 'Submitting...' : 'Login'}
         </Button>
       </div>
+      {isVerifyingEmail && <VerifyEmail />}
     </form>
   );
 }

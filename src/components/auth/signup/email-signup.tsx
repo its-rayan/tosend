@@ -1,20 +1,25 @@
 'use client';
 
+import VerifyEmail from '@/components/auth/verify-email';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { checkAccountExistsAction } from '@/lib/actions/auth/check-account-exists';
 import { signIn } from 'next-auth/react';
 import { useAction } from 'next-safe-action/hooks';
-import { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 export default function SignUpForm() {
+  const [isVerifyingEmail, setIsVerifyingEmail] = useState(false);
   const { executeAsync, isPending } = useAction(checkAccountExistsAction, {
     onError: ({ error }) => {
       console.error('Error checking account existence:', error);
       toast.error(error.serverError);
+    },
+    onSuccess: () => {
+      setIsVerifyingEmail(true);
     },
   });
 
@@ -36,15 +41,19 @@ export default function SignUpForm() {
 
     // check if account exists before sending magic link
     const { accountExists } = result.data;
-    if (!accountExists) {
-      toast.error('No account found with that email address.');
+    if (accountExists) {
+      toast.error('User already exists. Please login instead of signing up.');
       return;
     }
 
     const provider =
       process.env.NODE_ENV === 'production' ? 'resend' : 'nodemailer';
 
-    await signIn(provider, { email, redirectTo: '/workspace' });
+    await signIn(provider, {
+      email,
+      redirectTo: '/workspace',
+      redirect: false,
+    });
   };
 
   return (
@@ -65,6 +74,7 @@ export default function SignUpForm() {
           {isPending ? 'Submitting...' : 'Create an account'}
         </Button>
       </div>
+      {isVerifyingEmail && <VerifyEmail />}
     </form>
   );
 }
