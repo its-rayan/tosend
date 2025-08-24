@@ -8,12 +8,13 @@ import { signIn } from 'next-auth/react';
 import { useAction } from 'next-safe-action/hooks';
 import { FormEvent } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 export default function SignInForm() {
   const { executeAsync, isPending } = useAction(checkAccountExistsAction, {
     onError: ({ error }) => {
       console.error('Error checking account existence:', error);
-      alert(error.serverError);
+      toast.error(error.serverError);
     },
   });
 
@@ -36,7 +37,7 @@ export default function SignInForm() {
     // check if account exists before sending magic link
     const { accountExists } = result.data;
     if (!accountExists) {
-      alert('No account found with that email address.');
+      toast.error('No account found with that email address.');
       return;
     }
 
