@@ -10,3 +10,9 @@ export const AUTH_PAGES = {
 };
 
 export const AUTH_SUCCESS_CALLBACK = '/workspace';
+
+export const AUTH_FLOW_ROUTES = {
+  PUBLIC: ['/'],
+  AUTH: ['/auth/signin', '/auth/signup'],
+  API_PREFIX: '/api/auth',
+};
