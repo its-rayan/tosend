@@ -29,6 +29,11 @@ export default auth(async function middleware(req) {
     return Response.redirect(new URL(AUTH_PAGES.SIGN_IN, req.url));
   }
 
+  // redirect to workspace if user is logged in and trying to access a public route
+  if (isLoggedIn && isPublicRoute) {
+    return Response.redirect(new URL(AUTH_SUCCESS_CALLBACK, nextUrl));
+  }
+
   return null;
 });
 
