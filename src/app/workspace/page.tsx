@@ -1,4 +1,3 @@
-import SignOutButton from '@/components/auth/signout-button';
 import { getCurrentUser } from '@/lib/auth/session';
 
 export default async function WorkspacePage() {
@@ -9,7 +8,6 @@ export default async function WorkspacePage() {
         <h1>Workspace</h1>
         {JSON.stringify(user)}
       </div>
-      <SignOutButton />
     </div>
   );
 }
