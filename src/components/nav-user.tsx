@@ -4,9 +4,11 @@ import {
   IconCreditCard,
   IconDotsVertical,
   IconLogout,
+  IconTrash,
   IconUserCircle,
 } from '@tabler/icons-react';
 
+import DeleteAccount from '@/components/auth/delete-account';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
@@ -29,7 +31,6 @@ import { signOut, useSession } from 'next-auth/react';
 export function NavUser() {
   const { isMobile } = useSidebar();
   const { data: session } = useSession();
-  console.log('userSession: ', session);
 
   return (
     <SidebarMenu>
@@ -93,6 +94,15 @@ export function NavUser() {
                 <IconCreditCard />
                 Billing
               </DropdownMenuItem>
+              <DeleteAccount>
+                <DropdownMenuItem
+                  variant="destructive"
+                  onSelect={(e) => e.preventDefault()}
+                >
+                  <IconTrash />
+                  Delete Account
+                </DropdownMenuItem>
+              </DeleteAccount>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem
