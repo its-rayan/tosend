@@ -2,6 +2,7 @@ import authConfig from '@/auth.config';
 import connectToMongoClient from '@/database/connect-mongo-client';
 import User from '@/database/models/user';
 import {
+  AUTH_EMAIL_VERIFICATION_SUBJECT,
   AUTH_FROM_EMAIL,
   AUTH_PAGES,
   AUTH_SMTP_FROM_EMAIL,
@@ -38,7 +39,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return sendEmail({
           email,
           from: provider.from,
-          subject: `Your ${process.env.NEXT_PUBLIC_APP_NAME} Login Link from Nodemailer`,
+          subject: AUTH_EMAIL_VERIFICATION_SUBJECT,
           html: `<p>Sign in to ${url} by clicking <a href="${url}">here</a>.</p>`,
         });
       },
@@ -50,7 +51,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return sendEmail({
           email,
           from: provider.from,
-          subject: `Your ${process.env.NEXT_PUBLIC_APP_NAME} Login Link from Resend`,
+          subject: AUTH_EMAIL_VERIFICATION_SUBJECT,
           html: `<p>Sign in to ${url} by clicking <a href="${url}">here</a>.</p>`,
         });
       },
