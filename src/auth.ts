@@ -1,5 +1,6 @@
 import authConfig from '@/auth.config';
 import connectToMongoClient from '@/database/connect-mongo-client';
+import User from '@/database/models/user';
 import {
   AUTH_FROM_EMAIL,
   AUTH_PAGES,
@@ -17,6 +18,10 @@ const mongoClient = connectToMongoClient();
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: MongoDBAdapter(mongoClient),
   session: { strategy: 'jwt' },
+  pages: {
+    signIn: AUTH_PAGES.SIGN_IN,
+    error: AUTH_PAGES.SIGN_IN,
+  },
   ...authConfig,
   providers: [
     Nodemailer({
@@ -55,8 +60,63 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
-  pages: {
-    signIn: AUTH_PAGES.SIGN_IN,
-    error: AUTH_PAGES.SIGN_IN,
+  callbacks: {
+    async signIn({ user, account, profile, email, credentials }) {
+      // Custom signIn logic
+      console.log('SignIn callback:', {
+        user,
+        account,
+        profile,
+        email,
+        credentials,
+      });
+
+      // check if user has signed in with google
+      if (account?.type === 'email') {
+        const updatedUserObj = {
+          ...user,
+          name: user?.email?.split('@')[0],
+          image: 'avatar_url_for_email',
+        };
+
+        console.log('Updated user object:', updatedUserObj);
+
+        const userExists = await User.findOne({ email: user?.email });
+        if (!userExists) {
+          await User.create(updatedUserObj);
+        } else {
+          await User.updateOne({ email: user?.email }, updatedUserObj);
+        }
+      }
+
+      return true;
+    },
+    async session({ token, session }) {
+      if (token) {
+        session.user.id = token.id as string;
+        session.user.name = token.name as string;
+        session.user.email = token.email as string;
+        session.user.image = token.picture as string;
+      }
+
+      return session;
+    },
+    async jwt({ token, user }) {
+      const dbUser = await User.findOne({ email: token.email });
+
+      if (!dbUser) {
+        if (user) {
+          token.id = user?.id;
+        }
+        return token;
+      }
+
+      return {
+        id: dbUser.id,
+        name: dbUser.name,
+        email: dbUser.email,
+        picture: dbUser.image,
+      };
+    },
   },
 });
