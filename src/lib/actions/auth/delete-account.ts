@@ -1,6 +1,7 @@
 'use server';
 
 import connectToDbClient from '@/database/connect-db-client';
+import Account from '@/database/models/account';
 import User from '@/database/models/user';
 import { actionClient } from '@/lib/actions/safe-action';
 import { z } from 'zod';
@@ -15,6 +16,12 @@ export const deleteAccountAction = actionClient
     await connectToDbClient();
 
     const { userId } = parsedInput;
+
+    // check and delete account object if user has one
+    const dbAccount = await Account.findOne({ userId });
+    if (dbAccount) {
+      await Account.deleteOne({ userId });
+    }
 
     await User.deleteOne({ _id: userId });
 
