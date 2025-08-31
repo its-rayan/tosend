@@ -23,6 +23,8 @@ export default async function sendViaResend({
     throw new Error('RESEND_API_KEY is not defined');
   }
 
+  console.log('✉️ Sending email via Resend to:', email);
+
   const { data } = await resend.emails.send({
     to: email,
     from: from || AUTH_FROM_EMAIL,
@@ -35,4 +37,6 @@ export default async function sendViaResend({
   if (!data?.id) {
     throw new Error('Resend email could not be sent');
   }
+
+  console.log('✅ ✉️ Email successfully sent via Resend:', data.id);
 }

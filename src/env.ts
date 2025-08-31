@@ -9,7 +9,6 @@ export const env = createEnv({
    * See https://next-auth.js.org/deployment.
    */
   server: {
-    NODE_ENV: z.enum(['development', 'production']),
     AUTH_SECRET: z.string(),
     MONGO_URI: z.string(),
     RESEND_API_KEY: z.string(),
@@ -20,6 +19,7 @@ export const env = createEnv({
     SMTP_USER: z.string(),
     SMTP_PASSWORD: z.string(),
   },
+
   /*
    * Environment variables available on the client (and server).
    *
@@ -28,6 +28,14 @@ export const env = createEnv({
   client: {
     NEXT_PUBLIC_APP_NAME: z.string().min(1),
   },
+
+  /*
+   * Shared environment variables between client and server.
+   */
+  shared: {
+    NODE_ENV: z.enum(['development', 'production']),
+  },
+
   /*
    * Specify what values should be validated by your schemas above.
    *
@@ -37,7 +45,6 @@ export const env = createEnv({
    */
   runtimeEnv: {
     // server env
-    NODE_ENV: process.env.NODE_ENV,
     AUTH_SECRET: process.env.AUTH_SECRET,
     MONGO_URI: process.env.MONGO_URI,
     RESEND_API_KEY: process.env.RESEND_API_KEY,
@@ -50,5 +57,8 @@ export const env = createEnv({
 
     // client env
     NEXT_PUBLIC_APP_NAME: process.env.NEXT_PUBLIC_APP_NAME,
+
+    // shared env
+    NODE_ENV: process.env.NODE_ENV,
   },
 });

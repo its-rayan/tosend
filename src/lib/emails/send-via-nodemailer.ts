@@ -24,6 +24,8 @@ export default async function sendViaNodeMailer({
     },
   });
 
+  console.log('✉️ Sending email via Nodemailer to:', email);
+
   const result = await transporter.sendMail({
     from: from || AUTH_SMTP_FROM_EMAIL,
     to: email,
@@ -34,4 +36,8 @@ export default async function sendViaNodeMailer({
   if (failed.length) {
     throw new Error(`Email(s) (${failed.join(', ')}) could not be sent`);
   }
+  console.log(
+    '✅ ✉️ Email successfully sent via Nodemailer:',
+    result.messageId,
+  );
 }
