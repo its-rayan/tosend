@@ -84,6 +84,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         console.log('Updated user object:', updatedUserObj);
 
+        await connectToDbClient();
+
         const userExists = await User.findOne({ email: user?.email });
         if (!userExists) {
           await User.create(updatedUserObj);
