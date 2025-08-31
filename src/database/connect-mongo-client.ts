@@ -2,13 +2,14 @@
 ###### NEEDED TO CONNECT MONGODB TO AUTHJS  ######
 #################################################*/
 
+import { env } from '@/env';
 import { MongoClient, ServerApiVersion } from 'mongodb';
 
 type GlobalThis = typeof globalThis & {
   _mongoClient?: Promise<MongoClient>;
 };
 
-const MONGO_URI = process.env.MONGO_URI;
+const MONGO_URI = env.MONGO_URI;
 
 const mongoClientOptions = {
   serverApi: {
@@ -25,7 +26,7 @@ export default function connectToMongoClient() {
   }
 
   // If we are in development, use the global promise
-  if (process.env.NODE_ENV === 'development') {
+  if (env.NODE_ENV === 'development') {
     const globalWithMongo = global as GlobalThis;
     globalWithMongo._mongoClient = undefined;
 

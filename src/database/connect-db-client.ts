@@ -2,6 +2,7 @@
 ###### NEEDED TO CONNECT MONGOOSE TO DB  #########
 #################################################*/
 
+import { env } from '@/env';
 import mongoose from 'mongoose';
 
 type cachedMongoose = {
@@ -15,7 +16,7 @@ type GlobalThis = typeof globalThis & {
 
 const globalWithMongoose = global as GlobalThis;
 
-const MONGO_URI = process.env.MONGO_URI;
+const MONGO_URI = env.MONGO_URI;
 
 // TODO: Set global mongoose instance only if not in production
 async function connectToDbClient() {
