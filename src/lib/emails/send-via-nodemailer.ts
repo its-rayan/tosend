@@ -1,3 +1,4 @@
+import { env } from '@/env';
 import { AUTH_SMTP_FROM_EMAIL } from '@/util/constants/auth';
 import nodemailer from 'nodemailer';
 
@@ -15,11 +16,11 @@ export default async function sendViaNodeMailer({
   subject,
 }: options) {
   const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT),
+    host: env.SMTP_HOST,
+    port: Number(env.SMTP_PORT),
     auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASSWORD,
+      user: env.SMTP_USER,
+      pass: env.SMTP_PASSWORD,
     },
   });
 

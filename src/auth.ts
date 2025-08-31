@@ -1,6 +1,8 @@
 import authConfig from '@/auth.config';
+import connectToDbClient from '@/database/connect-db-client';
 import connectToMongoClient from '@/database/connect-mongo-client';
 import User from '@/database/models/user';
+import { env } from '@/env';
 import {
   AUTH_EMAIL_VERIFICATION_SUBJECT,
   AUTH_FROM_EMAIL,
@@ -27,11 +29,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Nodemailer({
       server: {
-        host: process.env.SMTP_HOST,
-        port: Number(process.env.SMTP_PORT),
+        host: env.SMTP_HOST,
+        port: Number(env.SMTP_PORT),
         auth: {
-          user: process.env.SMTP_USER,
-          pass: process.env.SMTP_PASSWORD,
+          user: env.SMTP_USER,
+          pass: env.SMTP_PASSWORD,
         },
       },
       from: AUTH_SMTP_FROM_EMAIL,
@@ -45,7 +47,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
     Resend({
-      apiKey: process.env.RESEND_API_KEY,
+      apiKey: env.RESEND_API_KEY,
       from: AUTH_FROM_EMAIL,
       sendVerificationRequest: ({ identifier: email, url, provider }) => {
         return sendEmail({
@@ -57,8 +59,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
     Google({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
     }),
   ],
   callbacks: {
@@ -103,6 +105,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return session;
     },
     async jwt({ token, user }) {
+      await connectToDbClient();
       const dbUser = await User.findOne({ email: token.email });
 
       if (!dbUser) {

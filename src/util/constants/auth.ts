@@ -1,6 +1,8 @@
+import { env } from '@/env';
+
 export const AUTH_METHODS = ['email', 'google'];
 
-export const AUTH_EMAIL_VERIFICATION_SUBJECT = `Your ${process.env.NEXT_PUBLIC_APP_NAME} Login Link`;
+export const AUTH_EMAIL_VERIFICATION_SUBJECT = `Your ${env.NEXT_PUBLIC_APP_NAME} Login Link`;
 
 export const AUTH_FROM_EMAIL = 'no-reply@resend.tosend.co';
 

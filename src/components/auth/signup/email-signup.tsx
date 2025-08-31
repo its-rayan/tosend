@@ -4,6 +4,7 @@ import VerifyEmail from '@/components/auth/verify-email';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { env } from '@/env';
 import { checkAccountExistsAction } from '@/lib/actions/auth/check-account-exists';
 import { signIn } from 'next-auth/react';
 import { useAction } from 'next-safe-action/hooks';
@@ -46,8 +47,7 @@ export default function SignUpForm() {
     // TODO: FIND A BETTER WAY TO OPTIMISTICALLY SHOW VERIFY EMAIL COMPONENT
     setIsVerifyingEmail(true);
 
-    const provider =
-      process.env.NODE_ENV === 'production' ? 'resend' : 'nodemailer';
+    const provider = env.NODE_ENV === 'production' ? 'resend' : 'nodemailer';
 
     await signIn(provider, {
       email,
