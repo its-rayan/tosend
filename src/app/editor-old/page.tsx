@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
+import { Separator } from '@/components/ui/separator';
+import { cn } from '@/lib/utils';
 
 // TipTap Editor
-import { useEditor, EditorContent } from "@tiptap/react";
+import { useEditor, EditorContent } from '@tiptap/react';
 
 // TipTap Extensions
 // https://tiptap.dev/api/extensions
-import StarterKit from "@tiptap/starter-kit";
-import Underline from "@tiptap/extension-underline";
-import TextAlign from "@tiptap/extension-text-align";
-import Image from "@tiptap/extension-image";
-import ImageResize from "tiptap-extension-resize-image";
-import Link from "@tiptap/extension-link";
+import StarterKit from '@tiptap/starter-kit';
+import Underline from '@tiptap/extension-underline';
+import TextAlign from '@tiptap/extension-text-align';
+import Image from '@tiptap/extension-image';
+import ImageResize from 'tiptap-extension-resize-image';
+import Link from '@tiptap/extension-link';
 
 // Lucide Icons
 // https://lucide.dev/icons
@@ -40,19 +40,19 @@ import {
   ListOrdered,
   Link as LinkIcon,
   Clipboard,
-} from "lucide-react";
+} from 'lucide-react';
 
 // Editor Store
 // This is a custom store for managing the editor instance
-import { useEditorStore } from "@/store/use-editor-store";
+import { useEditorStore } from '@/store/use-editor-store';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { HeadingLevel } from "@/util/constants/editor";
-import { Button } from "@/components/ui/button";
+} from '@/components/ui/dropdown-menu';
+import { HeadingLevel } from '@/util/constants/editor';
+import { Button } from '@/components/ui/button';
 
 const defaultContent = `
   <h1>Welcome to ToSend 👋</h1>
@@ -103,8 +103,9 @@ const ToolbarButton = ({
     <button
       onClick={onClick}
       className={cn(
-        "text-sm p-2 flex items-center rounded-sm hover:bg-neutral-100 text-muted-foreground align-center",
-        isActive && "bg-neutral-200 hover:bg-neutral-200 text-accent-foreground"
+        'text-muted-foreground align-center flex items-center rounded-sm p-2 text-sm hover:bg-neutral-100',
+        isActive &&
+          'text-accent-foreground bg-neutral-200 hover:bg-neutral-200',
       )}
     >
       <Icon className="h-4 w-4" aria-hidden="true" />
@@ -129,7 +130,7 @@ const ToolbarHeadingDropdown = () => {
     if (!editor) return <HeadingIcon className="h-4 w-4" aria-hidden="true" />;
 
     const activeLevel = levels.find((level) =>
-      editor.isActive("heading", { level })
+      editor.isActive('heading', { level }),
     ) as HeadingLevel | undefined;
 
     if (!activeLevel)
@@ -141,7 +142,7 @@ const ToolbarHeadingDropdown = () => {
 
   const getCurrentHeading = () => {
     for (let level = 1; level <= 4; level++) {
-      if (editor?.isActive("heading", { level })) {
+      if (editor?.isActive('heading', { level })) {
         return getActiveIcon();
       }
     }
@@ -153,9 +154,9 @@ const ToolbarHeadingDropdown = () => {
       <DropdownMenuTrigger asChild>
         <button
           className={cn(
-            "text-sm p-2 flex items-center rounded-sm hover:bg-neutral-100 text-muted-foreground align-center",
+            'text-muted-foreground align-center flex items-center rounded-sm p-2 text-sm hover:bg-neutral-100',
             !!getCurrentHeading() &&
-              "bg-neutral-200 hover:bg-neutral-200 text-accent-foreground"
+              'text-accent-foreground bg-neutral-200 hover:bg-neutral-200',
           )}
         >
           <span>
@@ -166,7 +167,7 @@ const ToolbarHeadingDropdown = () => {
           <ChevronDown className="h-2 w-2" aria-hidden="true" />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="flex flex-col p-1 gap-y-1">
+      <DropdownMenuContent className="flex flex-col gap-y-1 p-1">
         {levels.map((level) => {
           const Icon = headingIcons[level] || HeadingOneIcon; // Default to HeadingOneIcon if not found
           return (
@@ -180,12 +181,12 @@ const ToolbarHeadingDropdown = () => {
                   }
                 }}
                 className={cn(
-                  "text-sm p-2 flex items-center rounded-sm hover:bg-neutral-100 text-muted-foreground",
-                  editor?.isActive("heading", { level }) &&
-                    "bg-neutral-200 hover:bg-neutral-200 text-accent-foreground"
+                  'text-muted-foreground flex items-center rounded-sm p-2 text-sm hover:bg-neutral-100',
+                  editor?.isActive('heading', { level }) &&
+                    'text-accent-foreground bg-neutral-200 hover:bg-neutral-200',
                 )}
               >
-                <Icon className="h-4 w-4 mr-2" aria-hidden="true" />
+                <Icon className="mr-2 h-4 w-4" aria-hidden="true" />
                 {`Heading ${level}`}
               </button>
             </DropdownMenuItem>
@@ -200,10 +201,10 @@ const ToolbarListDropdown = () => {
   const { editor } = useEditorStore();
 
   const getCurrentList = () => {
-    if (editor?.isActive("bulletList")) {
+    if (editor?.isActive('bulletList')) {
       return <List className="h-4 w-4" aria-hidden="true" />;
     }
-    if (editor?.isActive("orderedList")) {
+    if (editor?.isActive('orderedList')) {
       return <ListOrdered className="h-4 w-4" aria-hidden="true" />;
     }
 
@@ -215,9 +216,9 @@ const ToolbarListDropdown = () => {
       <DropdownMenuTrigger asChild>
         <button
           className={cn(
-            "text-sm p-2 flex items-center rounded-sm hover:bg-neutral-100 text-muted-foreground align-center",
+            'text-muted-foreground align-center flex items-center rounded-sm p-2 text-sm hover:bg-neutral-100',
             !!getCurrentList() &&
-              "bg-neutral-200 hover:bg-neutral-200 text-accent-foreground"
+              'text-accent-foreground bg-neutral-200 hover:bg-neutral-200',
           )}
         >
           <span>
@@ -228,17 +229,17 @@ const ToolbarListDropdown = () => {
           <ChevronDown className="h-2 w-2" aria-hidden="true" />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="flex flex-col p-1 gap-y-1">
+      <DropdownMenuContent className="flex flex-col gap-y-1 p-1">
         <DropdownMenuItem asChild>
           <button
             onClick={() => editor?.chain().focus().toggleBulletList().run()}
             className={cn(
-              "text-sm p-2 flex items-center rounded-sm hover:bg-neutral-100 text-muted-foreground",
-              editor?.isActive("bulletList") &&
-                "bg-neutral-200 hover:bg-neutral-200 text-accent-foreground"
+              'text-muted-foreground flex items-center rounded-sm p-2 text-sm hover:bg-neutral-100',
+              editor?.isActive('bulletList') &&
+                'text-accent-foreground bg-neutral-200 hover:bg-neutral-200',
             )}
           >
-            <List className="h-4 w-4 mr-2" aria-hidden="true" />
+            <List className="mr-2 h-4 w-4" aria-hidden="true" />
             {`Bullet List`}
           </button>
         </DropdownMenuItem>
@@ -246,12 +247,12 @@ const ToolbarListDropdown = () => {
           <button
             onClick={() => editor?.chain().focus().toggleOrderedList().run()}
             className={cn(
-              "text-sm p-2 flex items-center rounded-sm hover:bg-neutral-100 text-muted-foreground",
-              editor?.isActive("orderedList") &&
-                "bg-neutral-200 hover:bg-neutral-200 text-accent-foreground"
+              'text-muted-foreground flex items-center rounded-sm p-2 text-sm hover:bg-neutral-100',
+              editor?.isActive('orderedList') &&
+                'text-accent-foreground bg-neutral-200 hover:bg-neutral-200',
             )}
           >
-            <ListOrdered className="h-4 w-4 mr-2" aria-hidden="true" />
+            <ListOrdered className="mr-2 h-4 w-4" aria-hidden="true" />
             {`Ordered List`}
           </button>
         </DropdownMenuItem>
@@ -270,74 +271,74 @@ const MainToolbar = () => {
   }[][] = [
     [
       {
-        label: "Undo",
+        label: 'Undo',
         icon: Undo,
         onClick: () => editor?.chain().focus().undo().run(),
       },
       {
-        label: "Redo",
+        label: 'Redo',
         icon: Redo,
         onClick: () => editor?.chain().focus().redo().run(),
       },
     ],
     [
       {
-        label: "Bold",
+        label: 'Bold',
         icon: Bold,
         onClick: () => editor?.chain().focus().toggleBold().run(),
-        isActive: editor?.isActive("bold"),
+        isActive: editor?.isActive('bold'),
       },
       {
-        label: "Italic",
+        label: 'Italic',
         icon: Italic,
         onClick: () => editor?.chain().focus().toggleItalic().run(),
-        isActive: editor?.isActive("italic"),
+        isActive: editor?.isActive('italic'),
       },
       {
-        label: "Underline",
+        label: 'Underline',
         icon: UnderlineIcon,
         onClick: () => editor?.chain().focus().toggleUnderline().run(),
-        isActive: editor?.isActive("underline"),
+        isActive: editor?.isActive('underline'),
       },
       {
-        label: "Strikethrough",
+        label: 'Strikethrough',
         icon: Strikethrough,
         onClick: () => editor?.chain().focus().toggleStrike().run(),
-        isActive: editor?.isActive("strike"),
+        isActive: editor?.isActive('strike'),
       },
     ],
     [
       {
-        label: "Align Left",
+        label: 'Align Left',
         icon: AlignLeft,
-        onClick: () => editor?.chain().focus().setTextAlign("left").run(),
-        isActive: editor?.isActive({ textAlign: "left" }),
+        onClick: () => editor?.chain().focus().setTextAlign('left').run(),
+        isActive: editor?.isActive({ textAlign: 'left' }),
       },
       {
-        label: "Align Center",
+        label: 'Align Center',
         icon: AlignCenter,
-        onClick: () => editor?.chain().focus().setTextAlign("center").run(),
-        isActive: editor?.isActive({ textAlign: "center" }),
+        onClick: () => editor?.chain().focus().setTextAlign('center').run(),
+        isActive: editor?.isActive({ textAlign: 'center' }),
       },
       {
-        label: "Align Right",
+        label: 'Align Right',
         icon: AlignRight,
-        onClick: () => editor?.chain().focus().setTextAlign("right").run(),
-        isActive: editor?.isActive({ textAlign: "right" }),
+        onClick: () => editor?.chain().focus().setTextAlign('right').run(),
+        isActive: editor?.isActive({ textAlign: 'right' }),
       },
       {
-        label: "Justify",
+        label: 'Justify',
         icon: AlignJustify,
-        onClick: () => editor?.chain().focus().setTextAlign("justify").run(),
-        isActive: editor?.isActive({ textAlign: "justify" }),
+        onClick: () => editor?.chain().focus().setTextAlign('justify').run(),
+        isActive: editor?.isActive({ textAlign: 'justify' }),
       },
     ],
     [
       {
-        label: "Add Image",
+        label: 'Add Image',
         icon: ImagePlus,
         onClick: () => {
-          const url = prompt("Enter image URL");
+          const url = prompt('Enter image URL');
           if (url) {
             editor?.chain().focus().setImage({ src: url }).run();
           }
@@ -349,7 +350,7 @@ const MainToolbar = () => {
   return (
     <div
       role="toolbar"
-      className="w-full h-[44px] flex items-center justify-center px-4 border-b border-accent"
+      className="border-accent flex h-[44px] w-full items-center justify-center border-b px-4"
     >
       <ToolbarContainer>
         <ToolbarGroup>
@@ -383,13 +384,13 @@ const MainToolbar = () => {
           ))}
           <ToolbarButton
             onClick={() => {
-              const url = prompt("Enter link URL");
+              const url = prompt('Enter link URL');
               if (url) {
                 editor?.chain().focus().setLink({ href: url }).run();
               }
             }}
             icon={LinkIcon}
-            isActive={editor?.isActive("link") ? true : false}
+            isActive={editor?.isActive('link') ? true : false}
           />
         </ToolbarGroup>
 
@@ -423,15 +424,15 @@ const MainToolbar = () => {
 
         <ToolbarGroup>
           <Button
-            size={"sm"}
+            size={'sm'}
             onClick={() => {
               if (editor) {
                 const html = editor.getHTML();
                 navigator.clipboard.writeText(html).then(() => {
-                  alert("HTML copied to clipboard!");
+                  alert('HTML copied to clipboard!');
                 });
               } else {
-                alert("Editor not initialized.");
+                alert('Editor not initialized.');
               }
             }}
           >
@@ -467,7 +468,7 @@ const Editor = () => {
       setEditor(editor);
     },
     onContentError: ({ editor, error }) => {
-      console.error("Content error:", error);
+      console.error('Content error:', error);
       setEditor(editor);
     },
     onDestroy: () => {
@@ -476,14 +477,14 @@ const Editor = () => {
     editorProps: {
       attributes: {
         class:
-          "focus:outline-none p-12 flex flex-col h-full w-full text-base cursor-text",
+          'focus:outline-none p-12 flex flex-col h-full w-full text-base cursor-text',
       },
     },
     extensions: [
       StarterKit,
       Underline,
       TextAlign.configure({
-        types: ["heading", "paragraph"],
+        types: ['heading', 'paragraph'],
       }),
       Image,
       ImageResize,
@@ -497,7 +498,7 @@ const Editor = () => {
   });
 
   return (
-    <div className="h-[calc(100vh-44px)] max-w-[640px] w-full mx-auto">
+    <div className="mx-auto h-[calc(100vh-44px)] w-full max-w-[640px]">
       <EditorContent editor={editor} />
     </div>
   );
