@@ -22,7 +22,7 @@ export default async function EditorPage() {
       </div>
 
       <div className="mt-4 flex items-center justify-center">
-        <div className="flex w-[600px] rounded-md border border-dashed border-gray-300 bg-white">
+        <div className="relative h-[80vh] w-[600px] overflow-hidden rounded-md border border-dashed border-gray-300 bg-white">
           <p className="p-4">Canvas Area</p>
         </div>
       </div>
